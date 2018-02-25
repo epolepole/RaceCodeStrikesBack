@@ -8,9 +8,9 @@ class Pod:
         self.p = np.array([i_x, i_y])
         self.p_prev = np.array([i_x, i_y])
         self.v = np.array([0, 0])
-        self.v_ang = v_ang(self.v)
+        self.v_ang = vector_ang(self.v)
         self.v_prev = np.array([0, 0])
-        self.v_prev_ang = v_ang(self.v_prev)
+        self.v_prev_ang = vector_ang(self.v_prev)
         self.a = 0
         self.a_prev = 0
         self.check_id = -1
@@ -32,7 +32,7 @@ class Pod:
         self.v_prev = self.v
         self.v_prev_ang = self.v_ang
         self.v = i_v
-        self.v_ang = v_ang(self.v)
+        self.v_ang = vector_ang(self.v)
         self.a_prev = self.a
         self.a = i_a
         # print("Angle deviation: " + str((v_ang(self.v) - self.a) * 180 / math.pi), file=sys.stderr)

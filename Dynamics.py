@@ -1,15 +1,8 @@
-import sys
-
-import math
 import numpy as np
 from numpy.linalg import norm
 
-ka = 0.85/0.21
-dt = 1
-speed_on_point = 200
-v_max = 500
-v_min = 170
-deg = 180/math.pi
+from Constants import *
+
 
 
 def iterate_until_dist(dist, v0):
@@ -41,42 +34,6 @@ def rotate(origin: np.array, point: np.array, angle):
     qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
     # print("rotating  " + str(point) + " through " + str(origin) + " into " + str(np.array([qx, qy])), file=sys.stderr)
     return np.array([qx, qy])
-
-
-def a(v0, thrust=0):
-    return 0.85*thrust - 0.21*v0
-
-
-def v_t(v0, t, thrust=0):
-    _a = ka * thrust
-    _b = 0.21
-    return _a + (v0 + _a)*math.exp(-_b*t)
-
-
-def e_t(v0, t, e0=0, thrust=0):
-    _a = ka*thrust
-    _b = v0 - ka*thrust
-    _c = 0.21
-    return e0 + _b/_c + _a*t - _b/_c*math.exp(-_c*t)
-
-
-def t_e(e, v0, thrust=0):
-    t = 0
-    esp = e_t(0, v0, thrust, t)
-
-    print("distance = " + str(e), file=sys.stderr)
-    print("e("
-          + str(v0) + ','
-          + str(t) + ','
-          + '0,'
-          + str(thrust) + ") = " + str(e_t(v0, t, 0, thrust)), file=sys.stderr)
-
-    while esp < e and t < 100:
-        # print("e(" + str(t) + ") = " + str(esp), file=sys.stderr)
-        t = t + 1
-        esp = e_t(0, v0, thrust, t)
-
-    return t
 
 
 def ai(v_i, thrust=0):
@@ -114,12 +71,19 @@ def ang(v1, v2):
     """ Returns the angle in radians between vectors 'v1' and 'v2'
     """
     # print("ang v2: " +str(v_ang(v2)) + " - ang v1: " +str(v_ang(v1)) , file=sys.stderr)
-    return v_ang(v2) - v_ang(v1)
+    return vector_ang(v2) - vector_ang(v1)
 
 
-def v_ang(v):
-    """ Returns the angle in radians between vectors 'v1' and 'v2'
-    """
+def points_ang(p_1, p_2):
+    return vector_ang(p_1 - p_2)
+
+
+def vec(angle):
+    return np.array([np.cos(angle), np.sin(angle)])
+
+
+def vector_ang(v):
+    """"returns angle in radians of a vector"""
     v_u = u_vec(v)
     return np.arctan2(v_u[1], v_u[0])
 

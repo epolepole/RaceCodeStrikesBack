@@ -1,4 +1,13 @@
+import math
+check_rad = 600
 
+ka = 0.85/0.21
+dt = 1
+speed_on_point = 200
+v_max = 500
+v_min = 170
+deg = 180/math.pi
+rad = math.pi/180
 
 e1 = 'e1'
 e2 = 'e2'
